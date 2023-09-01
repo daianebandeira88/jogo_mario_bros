@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+  <title>mario bros</title>
+  <style>
+    body{
+        margin: 0%;
+        padding: 0%;
+        box-sizing: border-box;
+          
+
+    }
+    .game_board{
+        width: 80%;
+        height: 500px;
+        border-bottom: 15px solid green;
+        margin: 0 auto;
+        position: relative;
+        overflow: hidden;
+        background:linear-gradient(rgb(66, 66, 230) , rgb(208, 208, 238));
+    }
+    .pipe{
+        position: absolute;
+        bottom: 0%;
+        width: 80px;
+        right: -80px;
+        animation: pipe_animation 2s infinite linear;
+
+    }
+    @keyframes pipe_animation {
+        from{
+          right: -80px;
+        }
+        to{
+          right: 100%;
+        }
+    }
+    .mario{
+        width: 150px;
+        position: absolute;
+        bottom: 0%;
+        
+    }
+    @keyframes jump {
+      0%{
+        bottom: 0%;
+      }
+      40%{
+        bottom: 200px;
+      }
+      60%{
+        bottom: 200px;
+      }
+      100%{
+        bottom: 0%;
+      }
+
+    }
+    .jump{
+      animation: jump 500ms  ease-out;
+    }
+
+    .nuvem{
+      position: absolute;
+      width: 550px;
+      animation: cound_animation 40s infinite;
+    }
+    @keyframes cound_animation {
+      from{
+          right: -550px;
+        }
+        to{
+          right: 100%;
+        }
+    }
+
+    .aviso{
+      width: 500px;
+      height: 280px;
+      margin-left:270px ;
+      display: none;
+      position: absolute;
+      animation: anima-fim 0.1s infinite linear;    
+    }
+    @keyframes anima-fim{
+      from{bottom: 100px;}to{bottom: 110px;}
+    } 
+    .botao{
+      width: 150px;
+      height: 70px;
+      border-radius: 15px;
+      background-color: blue;
+      color: white;
+      margin-top: 420px;
+      margin-left: 450px;
+      display: none;
+      font-size: 14px; 
+      font-weight: bold;
+      cursor: pointer; 
+      
+    
+
+    }
+    .botao:hover {
+      background-color: darkblue; /* Darken the background color on hover */
+      transform: scale(1.05); /* Slightly increase size on hover */
+    }
+
+  
+  </style>
+</head>
+<body>
+  <div class="game_board">
+     
+     <img src="midias/pipe-game.png" class="pipe" id="pipe">
+     <img src="midias/gif-mario.gif" class="mario" id="mario">
+     <img src="midias/clouds.png" class="nuvem" id="">
+     <img src="midias/fim.png" class="aviso" id="game-over">
+   
+     <button class="botao" id="joga" onclick="window.location.reload(true)">jogar novamente</button>
+     
+  </div>
+
+<script>
+
+    const mario = document.querySelector('.mario');
+    const pipe = document.querySelector('.pipe');
+    const jump = ()=>{
+      mario.classList.add('jump');
+
+      setTimeout(()=>{
+        mario.classList.remove('jump');
+      } ,500)
+    }
+
+    const loop = setInterval(()=>{
+
+      const pipe1 = document.getElementById('pipe');
+      const positionpipe = pipe1.offsetLeft;
+      //console.log(positionpipe);
+      const mario = document.getElementById("mario");
+      const marioposition = +window.getComputedStyle(mario).bottom.replace('px',' ');
+
+      
+
+
+      if((positionpipe <= 120) && (positionpipe > 0) && (marioposition <= 65)){ 
+          pipe.style.animation = 'none'; 
+          pipe.style.left = `${positionpipe}px`;
+          mario.style.animation = 'none';
+          // pipe.style.animation = 'none'; 
+          mario.style.bottom = `${marioposition}px`;
+          mario.src = 'midias/game-over.png';
+          mario.style.width = '75px';
+          mario.style.marginLeft = ' 50px';
+          document.getElementById('game-over').style.display = 'block';
+          document.getElementById('joga').style.display = 'block';
+          clearInterval(loop);
+      }  
+    },5);
+  document.addEventListener('keydown',jump);
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
